@@ -36,7 +36,7 @@ class CurrentWeather implements ForecastType
     {
         $url = $this->config["global"]["uri"];
         $apiKey = $this->config["global"]["api_key"];
-        $endpoint = sprintf('%s?q=%s&appid=%s', $url, 'London', $apiKey);
+        $endpoint = sprintf('%s?q=%s&appid=%s', $url, $requestString, $apiKey);
 
         $requestCurrent = $this->client->apiClient->request('GET', $endpoint, ['headers' => ['Accept' => '*/*']]);
 
@@ -62,7 +62,8 @@ class CurrentWeather implements ForecastType
         $weather->setCondition($response->weather[0]->description);
 
         if (isset($response->rain)) {
-            $weather->setRainVolume($response->rain);
+            $rain = json_decode(json_encode($response->rain), true);
+            $weather->setRainVolume($rain['1h'] .' mm');
         }
 
         return $weather;

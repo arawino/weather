@@ -30,7 +30,7 @@ class Weather
     private $windSpeed;
 
     /**
-     * @var null|float
+     * @var null|string
      */
     private $rainVolume;
 
@@ -128,17 +128,17 @@ class Weather
     }
 
     /**
-     * @param float $rain
+     * @param null|string $rain
      */
-    public function setRainVolume(float $rain): void
+    public function setRainVolume(?string $rain): void
     {
         $this->rainVolume = $rain;
     }
 
     /**
-     * @return null|float
+     * @return null|string
      */
-    public function getRainVolume(): ?float{
+    public function getRainVolume(): ?string{
         return $this->rainVolume;
     }
 

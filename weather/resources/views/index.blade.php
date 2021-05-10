@@ -1,6 +1,3 @@
-<?php
-var_dump($data);
-?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -24,7 +21,6 @@ var_dump($data);
     </style>
 </head>
 <body class="antialiased">
-@if (Route::has('login')) ll @endif
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
 
@@ -42,17 +38,19 @@ var_dump($data);
                 <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white" style="font-weight: bold"> {{ $data->getCity() }} Current Forecast</div>
             </div>
             <div class="flex items-left" style="padding: 20px">
-                @if(isset($data))
-                    Today {{ $data->getCity() }}' s weather is mainly {{$data->getCondition()}}
-                    <strong style="margin: 0 5px"> Temperature:</strong> {{$data->getTemperature()}}&#8451;
-                    <strong style="margin: 0 5px"> Feels like:</strong> {{$data->getFeelsLike()}}&#8451;
-                    <strong style="margin: 0 5px"> Wind:</strong> {{$data->getWindSpeed()}}
-                    <strong style="margin: 0 5px"> Humidity:</strong> {{$data->getWindSpeed()}}&#8451;
-                @endif
-
+                <table>
+                    @if(isset($data))
+                        <tr><td>Today {{ $data->getCity() }}' s weather is mainly {{$data->getCondition()}}</td></tr>
+                        <tr><td><strong style="margin: 0 5px"> Temperature:</strong> {{$data->getTemperature()}}&#8451;</td></tr>
+                        <tr><td><strong style="margin: 0 5px"> Feels like:</strong> {{$data->getFeelsLike()}}&#8451;</td></tr>
+                        <tr><td><strong style="margin: 0 5px"> Wind:</strong> {{$data->getWindSpeed()}} kph </td></tr>{{--wind measurement not returned using kph as a default--}}
+                        <tr><td><strong style="margin: 0 5px"> Humidity:</strong> {{$data->getWindSpeed()}}&#37;</td></tr>
+                        <tr><td><strong style="margin: 0 5px"> Rain volume:</strong> {{$data->getRainVolume()}}</td></tr>
+                    @endif
+                </table>
             </div>
             <div class="flex items-left" style="padding: 20px">
-                <form method="POST" action="">
+                <form method="GET" action="/result">
                     <div class="form-group">
 
                         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
@@ -61,7 +59,7 @@ var_dump($data);
                             </label>
 
                             @if ($errors->has('city'))
-                                <span class="text-danger">{{ $errors->first('city') }}</span>
+                                <span style="color:red">{{ $errors->first('city') }}</span>
                             @endif
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" style="padding: 10px;cursor: pointer; min-width: 80px; background-color: black; color: #fffffff0; ">Search</button>
 
@@ -69,8 +67,7 @@ var_dump($data);
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm"></div>
                             </div>
                         </div>
-
-
+                        {{ csrf_field() }}
                     </div>
                 </form>
             </div>
