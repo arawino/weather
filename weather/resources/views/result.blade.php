@@ -52,7 +52,11 @@
             <div class="flex items-left" style="padding: 20px">
                 <form method="GET" action="">
                     <div class="form-group">
-
+                        <div>
+                            @if (session('error'))
+                                <div class="alert alert-danger" style="color:red">{{ session('error') }}</div>
+                            @endif
+                        </div>
                         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
                             <label for="city" style="font-size: 17px; margin-right: 15px;"> Enter City
                                 <input name="city" style="padding: 10px 20px; background-color: #80808038; margin-left: 15px;"/>
