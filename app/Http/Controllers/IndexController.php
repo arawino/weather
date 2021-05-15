@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OpenWeatherFormRequest;
 use App\Services\WeatherProviders\OpenWeather\Exceptions\InvalidCityException;
 use App\Services\WeatherProviders\WeatherService;
 use Illuminate\Contracts\Foundation\Application;
@@ -9,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class IndexController extends Controller
@@ -45,13 +47,11 @@ class IndexController extends Controller
      * Return result for a given city, we are caching the weather data for 30 minutes for every city and forecast type
      * so an not to make frequent api request assuming weather cannot massively change within a 30 minute period.
      *
-     * @param Request $request
+     * @param OpenWeatherFormRequest $request
      * @return mixed
-     * @throws ValidationException
      */
-    public function currentWeatherResult(Request $request)
+    public function currentWeatherResult(OpenWeatherFormRequest $request)
     {
-        $this->validate($request, ['city' => 'required']);
         $cacheKey = sprintf('%s_%s_uk', self::CURRENT_FORECAST, $request->get('city'));
 
         try {
@@ -67,6 +67,7 @@ class IndexController extends Controller
                 $data = Cache::get($cacheKey);
             }
         } catch (InvalidCityException $e) {
+            Log::info($e);
             return back()->withError( 'Invalid city: Please enter valid UK city')->withInput();
         }
 
