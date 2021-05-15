@@ -42,6 +42,8 @@
                     @if(isset($data))
                         <tr><td>Today {{ $data->getCity() }}' s weather is mainly {{$data->getCondition()}}</td></tr>
                         <tr><td><strong style="margin: 0 5px"> Temperature:</strong> {{$data->getTemperature()}}&#8451;</td></tr>
+                        <tr><td><strong style="margin: 0 5px"> Min Temperature:</strong> {{$data->getMinTemperature()}}&#8451;</td></tr>
+                        <tr><td><strong style="margin: 0 5px"> Max Temperature:</strong> {{$data->getMaxTemperature()}}&#8451;</td></tr>
                         <tr><td><strong style="margin: 0 5px"> Feels like:</strong> {{$data->getFeelsLike()}}&#8451;</td></tr>
                         <tr><td><strong style="margin: 0 5px"> Wind:</strong> {{$data->getWindSpeed()}} kph </td></tr>{{--wind measurement not returned using kph as a default--}}
                         <tr><td><strong style="margin: 0 5px"> Humidity:</strong> {{$data->getWindSpeed()}}&#37;</td></tr>

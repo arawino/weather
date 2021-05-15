@@ -49,6 +49,11 @@ class Weather
      */
     private $condition;
 
+    public const TEMP_SYMBOL = '℃';
+    public const HUMIDITY_SYMBOL = '%';
+    public const WIND_IN_KPH = 'kph';
+    public const RAIN_SYMBOL_IN_MM = 'mm';
+
     /**
      * @param string $city
      */
