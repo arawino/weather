@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Weather;
+use App\Services\WeatherProviders\OpenWeather\Exceptions\InvalidCityException;
 use App\Services\WeatherProviders\WeatherService;
 use Illuminate\Console\Command;
 
@@ -43,28 +44,32 @@ class CurrentForecast extends Command
      */
     public function handle()
     {
-        $data = $this->service->getData(
-            WeatherService::OPEN_WEATHER_PROVIDER,
-            WeatherService::CURRENT_FORECAST,
-            $this->argument('city')
-        );
-        $headers = [sprintf('Current %s Forecast', $data->getCity()), 'Measurement'];
+        try {
+            $data = $this->service->getData(
+                WeatherService::OPEN_WEATHER_PROVIDER,
+                WeatherService::CURRENT_FORECAST,
+                $this->argument('city')
+            );
+            $headers = [sprintf('Current %s Forecast', $data->getCity()), 'Measurement'];
 
-        $data = [
-            ['Condition', $data->getCondition()],
-            ['Temperature', $data->getTemperature() . Weather::TEMP_SYMBOL],
-            ['Min Temperature', $data->getMinTemperature() . Weather::TEMP_SYMBOL],
-            ['Max Temperature', $data->getMaxTemperature() . Weather::TEMP_SYMBOL],
-            ['Feels like',$data->getFeelsLike() . Weather::TEMP_SYMBOL],
-            ['Wind', $data->getWindSpeed() . Weather::WIND_IN_KPH],
-            [ 'Humidity', $data->getHumidity() . Weather::HUMIDITY_SYMBOL],
-            [
-                'Rain volume', $data->getRainVolume()
-                ? sprintf('%s%s',$data->getRainVolume(), Weather::RAIN_SYMBOL_IN_MM)
-                : null
-            ]
-        ];
+            $data = [
+                ['Condition', $data->getCondition()],
+                ['Temperature', $data->getTemperature() . Weather::TEMP_SYMBOL],
+                ['Min Temperature', $data->getMinTemperature() . Weather::TEMP_SYMBOL],
+                ['Max Temperature', $data->getMaxTemperature() . Weather::TEMP_SYMBOL],
+                ['Feels like',$data->getFeelsLike() . Weather::TEMP_SYMBOL],
+                ['Wind', $data->getWindSpeed() . Weather::WIND_IN_KPH],
+                [ 'Humidity', $data->getHumidity() . Weather::HUMIDITY_SYMBOL],
+                [
+                    'Rain volume', $data->getRainVolume()
+                    ? sprintf('%s%s',$data->getRainVolume(), Weather::RAIN_SYMBOL_IN_MM)
+                    : null
+                ]
+            ];
 
-        $this->table($headers, $data);
+            $this->table($headers, $data);
+        } catch (InvalidCityException $e) {
+            $this->info('Please enter a valid UK city');
+        }
     }
 }
