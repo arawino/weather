@@ -4,6 +4,7 @@ namespace App\Services\WeatherProviders;
 
 use App\Models\Weather;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Format Api response and pass to the controller

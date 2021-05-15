@@ -3,6 +3,7 @@
 return [
     'global' => [
         'uri' => env('OPEN_WEATHER_URI'),
-        'api_key' => env('OPEN_WEATHER_API_KEY')
+        'testing_api_key' => env('OPEN_WEATHER_TESTING_API_KEY'),
+        'production_api_key' => env('OPEN_WEATHER_PRODUCTION_API_KEY')
     ]
 ];

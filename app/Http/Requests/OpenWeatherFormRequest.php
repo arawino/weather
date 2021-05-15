@@ -29,6 +29,9 @@ class OpenWeatherFormRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return bool
+     */
     private function validateRequestAgainstRules(): bool
     {
         $keys = collect($this->all())->keys();

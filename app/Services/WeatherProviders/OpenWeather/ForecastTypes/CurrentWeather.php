@@ -6,19 +6,14 @@ use App\Models\Weather;
 use App\Services\WeatherProviders\ForecastType;
 use App\Services\WeatherProviders\OpenWeather\Exceptions\InvalidCityException;
 use App\Services\WeatherProviders\OpenWeather\Http\HttpClient;
-use Illuminate\Support\Facades\Config;
+use Exception;
 
 class CurrentWeather implements ForecastType
 {
     /**
      * @var HttpClient
      */
-    private $client;
-
-    /**
-     * @var mixed
-     */
-    private $config;
+    private HttpClient $client;
 
     /**
      * @param HttpClient $client
@@ -26,8 +21,6 @@ class CurrentWeather implements ForecastType
     public function __construct(HttpClient $client)
     {
         $this->client = $client;
-        $this->config = Config::get('open-weather');
-
     }
 
     /**
@@ -35,14 +28,14 @@ class CurrentWeather implements ForecastType
      */
     public function sendRequest(string $requestString): string
     {
-        $url = $this->config["global"]["uri"];
-        $apiKey = $this->config["global"]["api_key"];
+        $url = $this->client->config["global"]["uri"];
+        $apiKey = $this->client->getApiKey();
         $endpoint = sprintf('%s?q=%s,uk&appid=%s', $url, $requestString, $apiKey);
 
         try {
             $requestCurrent = $this->client->apiClient->request('GET', $endpoint, ['headers' => ['Accept' => '*/*']]);
             $response = $requestCurrent->getBody()->getContents();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new InvalidCityException($e->getMessage(), $e->getRequest(), $e->getResponse());
         }
 

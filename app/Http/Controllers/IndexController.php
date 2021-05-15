@@ -52,7 +52,7 @@ class IndexController extends Controller
                 $request->get('city')
             );
         } catch (InvalidCityException $e) {
-            Log::info($e);
+            Log::info($e->getMessage());
             return back()->withError( 'Invalid city: Please enter valid UK city')->withInput();
         }
 
