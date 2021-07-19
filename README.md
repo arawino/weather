@@ -25,8 +25,5 @@
     Run php artisan current:forecast <cityName> 
     e.g php artisan current:forecast london to get London’s current weather
 
-
-
-    <h3>Unit test</h3>
-
-   Run "./vendor/bin/phpunit" on command line
+    Unit test
+    Run "./vendor/bin/phpunit" on command line
