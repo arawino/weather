@@ -1,31 +1,32 @@
-<h3>Set up </h3>
-Clone https://github.com/arawino/weather 
+<h3>Setup </h3>
+<ul>
+    Clone https://github.com/arawino/weather 
 
-cd into weather directory 
+    cd into weather directory 
 
-Run cp .env.example .env  on command line (to create .env file)
+    Run cp .env.example .env  on command line (to create .env file)
 
-Once .env is created open it and edit:
+    Once .env is created open it and edit:
 
-OPEN_WEATHER_TESTING_API_KEY variable with your open weather api_key 
+    OPEN_WEATHER_TESTING_API_KEY variable with your open weather api_key 
 
-Run compose install
+    Run compose install
 
-Run php artisan key:generate
+    Run php artisan key:generate
 
-Run php artisan serve
+    Run php artisan serve
 
-Copy the generate url to your browser (e.g http://127.0.0.1:8000/)
-
-
-
-To Use CLI Command 
-
-Run php artisan current:forecast <cityName> 
-e.g php artisan current:forecast london to get London’s current weather
+    Copy the generate url to your browser (e.g http://127.0.0.1:8000/)
 
 
 
-Unit test (/tests/Unit/WeatherServiceTest.php)
+    <h3>To Use CLI Command </h3>
 
-Run "./vendor/bin/phpunit" on command line
+    Run php artisan current:forecast <cityName> 
+    e.g php artisan current:forecast london to get London’s current weather
+
+
+
+    <h3>Unit test</h3>
+
+   Run "./vendor/bin/phpunit" on command line
